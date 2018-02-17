@@ -29,36 +29,7 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html; charset=UTF-8");
         resp.getWriter().append("There is two chairs...");
-        PrintWriter out = resp.getWriter();
         
-        BufferedReader reader = new BufferedReader(new InputStreamReader(req.getServletContext().getResourceAsStream("/WEB-INF/index.html"), "UTF-8"));
-        try {
-            String line;
-            boolean insideLoop = false;
-            StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().equals("<!-- begin repeat for each entry -->")) {
-                    insideLoop = true;
-                } else if (line.trim().equals("<!-- end repeat for each entry -->")) {
-                    insideLoop = false;
-                    String entryTemplate = sb.toString();
-                    for (TomcatEntry entry : tomcatService.getAllEntries()) {
-                        out.println(
-                                entryTemplate
-                                        .replace("{{ summary }}", escapeHtml(entry.getSummary()))
-                                        .replace("{{ description }}", escapeHtml(entry.getDescription()))
-                        );
-                    }
-                } else if (insideLoop) {
-                    sb.append(line).append("\n");
-                } else {
-                    out.println(line);
-                } 
-        		
-            }
-        } finally {
-            reader.close();
-        } 
     }
 
     private String escapeHtml(String text) {
