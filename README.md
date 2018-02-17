@@ -1,2 +1,2 @@
-# openshift-quickstarts
-Quickstarts used by templates in github.com/jboss-openshift/application-templates
+# IDK wtf im doing here
+Please help me
